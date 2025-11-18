@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无聊按钮模拟器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 #ff00ff;
+            animation: bounce 2s infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #ffff00;
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        .button-container {
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        #boringButton {
+            background-color: #4a4a4a;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 0 #2a2a2a;
+            position: relative;
+            z-index: 10;
+        }
+        
+        #boringButton:hover {
+            background-color: #5a5a5a;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 0 #2a2a2a;
+        }
+        
+        #boringButton:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #2a2a2a;
+        }
+        
+        .counter {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #ffff00;
+            text-shadow: 2px 2px 0 #000;
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            min-height: 60px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .effects-area {
+            height: 200px;
+            width: 100%;
+            position: relative;
+            margin: 40px 0;
+            overflow: hidden;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+        
+        .effect {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 3s forwards;
+            z-index: 5;
+        }
+        
+        .click-effect {
+            animation: clickEffect 0.5s;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes clickEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        @keyframes rainbow {
+            0% { background-color: #ff0000; }
+            20% { background-color: #ff9900; }
+            40% { background-color: #ffff00; }
+            60% { background-color: #00ff00; }
+            80% { background-color: #00ffff; }
+            100% { background-color: #ff00ff; }
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        .rainbow {
+            animation: rainbow 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>无聊按钮模拟器</h1>
+        <p class="subtitle">这个按钮看起来超级无聊，但点击它会有神奇的事情发生！</p>
+        
+        <div class="button-container">
+            <button id="boringButton">点击我</button>
+        </div>
+        
+        <div class="counter">点击次数: <span id="clickCount">0</span></div>
+        
+        <div class="message" id="message">这个按钮什么都不会做，真的...</div>
+        
+        <div class="effects-area" id="effectsArea"></div>
+    </div>
+    
+    <footer>
+        <p>无聊按钮模拟器 &copy; 2023 | 警告：此按钮可能比你想象的更有趣</p>
+    </footer>
+
+    <script>
+        // 获取DOM元素
+        const boringButton = document.getElementById('boringButton');
+        const clickCountElement = document.getElementById('clickCount');
+        const messageElement = document.getElementById('message');
+        const effectsArea = document.getElementById('effectsArea');
+        
+        // 初始化点击次数
+        let clickCount = 0;
+        
+        // 搞怪消息数组
+        const funnyMessages = [
+            "你以为这只是个普通按钮？太天真了！",
+            "继续点击，奇迹即将发生！",
+            "这个按钮其实是个隐藏的天才！",
+            "点击100次会有神秘奖励！",
+            "我是世界上最有趣的按钮！",
+            "你的鼠标一定很累了，休息一下吧！",
+            "你知道吗？这个按钮会思考！",
+            "再点一次，我就要变身了！",
+            "我感觉到一股神秘的力量...",
+            "恭喜！你发现了互联网的秘密！",
+            "这个按钮其实是个卧底特工！",
+            "点击我是在为世界和平做贡献！",
+            "我是由最先进的AI驱动的！",
+            "继续点击，宇宙奥秘即将揭晓！",
+            "这个按钮比你的手机还智能！"
+        ];
+        
+        // 搞怪表情数组
+        const funnyEmojis = ["😂", "🤣", "😜", "🤪", "😎", "🦄", "🐶", "🐱", "🐼", "🎉", "✨", "🌟", "💥", "🔥", "🌈"];
+        
+        // 按钮点击事件
+        boringButton.addEventListener('click', function() {
+            // 增加点击计数
+            clickCount++;
+            clickCountElement.textContent = clickCount;
+            
+            // 添加点击效果
+            this.classList.add('click-effect');
+            setTimeout(() => {
+                this.classList.remove('click-effect');
+            }, 500);
+            
+            // 随机选择消息
+            const randomMessage = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            messageElement.textContent = randomMessage;
+            
+            // 创建特效
+            createEffect();
+            
+            // 每10次点击触发特殊效果
+            if (clickCount % 10 === 0) {
+                triggerSpecialEffect();
+            }
+            
+            // 每5次点击改变按钮文本
+            if (clickCount % 5 === 0) {
+                changeButtonText();
+            }
+        });
+        
+        // 创建特效函数
+        function createEffect() {
+            const effect = document.createElement('div');
+            effect.className = 'effect';
+            effect.textContent = funnyEmojis[Math.floor(Math.random() * funnyEmojis.length)];
+            effect.style.left = `${Math.random() * 80 + 10}%`;
+            effect.style.fontSize = `${Math.random() * 2 + 2}rem`;
+            
+            effectsArea.appendChild(effect);
+            
+            // 3秒后移除特效
+            setTimeout(() => {
+                effect.remove();
+            }, 3000);
+        }
+        
+        // 触发特殊效果
+        function triggerSpecialEffect() {
+            // 随机选择特殊效果
+            const effects = [
+                () => { document.body.classList.add('shake'); setTimeout(() => { document.body.classList.remove('shake'); }, 500); },
+                () => { boringButton.classList.add('rainbow'); setTimeout(() => { boringButton.classList.remove('rainbow'); }, 2000); },
+                () => { boringButton.style.transform = 'rotate(360deg)'; setTimeout(() => { boringButton.style.transform = 'rotate(0deg)'; }, 500); },
+                () => { 
+                    const originalText = boringButton.textContent;
+                    boringButton.textContent = "我变身了！";
+                    setTimeout(() => { boringButton.textContent = originalText; }, 1000);
+                }
+            ];
+            
+            const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+            randomEffect();
+            
+            // 显示特殊消息
+            messageElement.textContent = "特殊效果已激活！";
+            messageElement.style.color = "#ff00ff";
+            setTimeout(() => {
+                messageElement.style.color = "white";
+            }, 2000);
+        }
+        
+        // 改变按钮文本
+        function changeButtonText() {
+            const buttonTexts = [
+                "点击我",
+                "继续点击",
+                "不要停",
+                "再来一次",
+                "点这里",
+                "我是按钮",
+                "按我按我",
+                "点我点我",
+                "这里这里",
+                "继续继续"
+            ];
+            
+            const randomText = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
+            boringButton.textContent = randomText;
+        }
+        
+        // 初始消息定时更换
+        setInterval(() => {
+            if (!boringButton.classList.contains('click-effect')) {
+                const randomMessage = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+                messageElement.textContent = randomMessage;
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

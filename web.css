@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 #ff00ff;
+    animation: bounce 2s infinite;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #ffff00;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.button-container {
+    margin: 40px 0;
+    position: relative;
+}
+
+#boringButton {
+    background-color: #4a4a4a;
+    color: white;
+    border: none;
+    padding: 20px 60px;
+    font-size: 1.8rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 0 #2a2a2a;
+    position: relative;
+    z-index: 10;
+}
+
+#boringButton:hover {
+    background-color: #5a5a5a;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 0 #2a2a2a;
+}
+
+#boringButton:active {
+    transform: translateY(5px);
+    box-shadow: 0 5px 0 #2a2a2a;
+}
+
+.counter {
+    font-size: 2rem;
+    margin: 20px 0;
+    color: #ffff00;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.message {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    min-height: 60px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.effects-area {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    margin: 40px 0;
+    overflow: hidden;
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.effect {
+    position: absolute;
+    font-size: 3rem;
+    animation: float 3s forwards;
+    z-index: 5;
+}
+
+.click-effect {
+    animation: clickEffect 0.5s;
+}
+
+footer {
+    margin-top: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes clickEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+@keyframes rainbow {
+    0% { background-color: #ff0000; }
+    20% { background-color: #ff9900; }
+    40% { background-color: #ffff00; }
+    60% { background-color: #00ff00; }
+    80% { background-color: #00ffff; }
+    100% { background-color: #ff00ff; }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+.rainbow {
+    animation: rainbow 2s infinite;
+}
